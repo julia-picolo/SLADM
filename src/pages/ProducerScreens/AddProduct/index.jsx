@@ -9,7 +9,7 @@ const AddProduct = () => {
       <Title>Selecione os produtos que deseja vender</Title>
 
       {/*Seletor de produtos*/}
-      <SelectionProduct />
+      <SelectionProduct title={"Frutas"} max={10} />
 
       {/*Botão para criar um novo produto*/}
       <ViewAddProduct>

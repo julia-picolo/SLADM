@@ -1,17 +1,15 @@
 import { useContext, useEffect, useState } from 'react'
-import { Modal, FlatList, SafeAreaView } from 'react-native'
-import { Touchable, Text, TouchableModal, ViewModal, TextModal, Title, ViewSelect, FlatListt } from './styles'
 
-import { View } from 'react-native'
+import { Touchable, Text, TouchableModal, ViewModal, TitleModal, SubTitleModal, Title, TextActions, FlatList, ViewMainModal, Modal, ViewModalHeader, ViewTitleHeader, Input } from './styles'
 
 import api from '../../../../services/api'
 import { UserContext } from '../../../../context/UserContext'
 
-export default SelectProduct = ({ options, onChange, initialSelect = [] }) => {
+export default SelectProduct = ({ options, onChange, initialSelect = [], title = "", max }) => {
 
   const { userEmail } = useContext(UserContext);
-  const [ selectedProductById, setSelectedProductById ] = useState('')
-  const [ products, setProducts ] = useState([])
+  const [selectedProductById, setSelectedProductById] = useState('')
+  const [products, setProducts] = useState([])
   const [price, setPrice] = useState(0)
   const [visible, setVisible] = useState(false)
 
@@ -26,7 +24,7 @@ export default SelectProduct = ({ options, onChange, initialSelect = [] }) => {
       const producerProducts = products
       // Talvez esse diff não dê certo
       const diffArray = responseProducts.filter(
-        (p) =>  !producerProducts.includes(p)
+        (p) => !producerProducts.includes(p)
       )
       console.log(diffArray);
       setProducts(diffArray)
@@ -59,30 +57,40 @@ export default SelectProduct = ({ options, onChange, initialSelect = [] }) => {
       <Text> + </Text>
 
       <Modal onRequestClose={() => setVisible(false)} visible={visible} animationType={'slide'}>
-        <SafeAreaView>
+
+        <ViewMainModal>
+
           <ViewModal>
             <Title>
               Selecione seus Produtos
             </Title>
-            <ViewModal>
+
+            <ViewModalHeader>
               {/* Aqui entraria a renderização dos produtos não consegui usar o código do professor
                 E quando não dá erro na renderização da no useContext e até agr não descobri */}
-              <FlatListt>
-                {/* Tentei mexer mas o estilo nao vem */}
-              </FlatListt>
               <TouchableModal onPress={() => setVisible(false)}>
-                <TextModal>Voltar</TextModal>
+                <TextActions>Voltar</TextActions>
               </TouchableModal>
-              <TouchableModal onPress={() => setVisible(false)}>
-                <TextModal>Concluir</TextModal>
-              </TouchableModal>
-              {/* <TouchableModal>
-                <Text>Voltar</Text>
-              </TouchableModal> */}
-            </ViewModal>
 
+              <ViewTitleHeader>
+                <TitleModal>{title}</TitleModal>
+                <SubTitleModal>{`Selecione até ${max} opeções`}</SubTitleModal>
+              </ViewTitleHeader>
+
+              <TouchableModal onPress={() => setVisible(false)}>
+                <TextActions>Concluir</TextActions>
+              </TouchableModal>
+
+            </ViewModalHeader>
+
+
+            <Input placeholder='Pesquisar' placeholderTextColor={"#fff"} />
           </ViewModal>
-        </SafeAreaView>
+
+
+          <FlatList />
+        </ViewMainModal>
+
       </Modal>
 
     </Touchable>
